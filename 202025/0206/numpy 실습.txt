@@ -1,0 +1,118 @@
+import numpy as np
+
+#코드 6-1
+list1 = [1, 2, 3, 4]
+a = np.array(list1)
+print('a.shape ', a.shape)
+print('a[0] ', a[0])
+
+b = np.array([[1, 2, 3], [4, 5, 6]])
+print('b.shape ', b.shape)
+print('b[0,0] ', b[0,0])
+print('b[0] ', b[0])
+
+print(=30)
+#코드 6-2
+a = np.zeros(2)
+print('an', a)
+b = np.zeros((2,2))
+print('bn', b)
+c = np.ones((2,3))
+print('cn', c)
+d = np.full((2,3), 5)
+print('dn', d)
+e = np.eye(3)
+print('en', e)
+
+print(=30)
+#코드 6-3
+a = np.array([1, 2], dtype=np.float64)
+print(a.dtype)
+
+a_i8 = a.astype(np.int8) 
+print(a_i8.dtype)
+
+#코드 6-4
+arr = np.array([[0, 1, 2], [3, 4, 5]])
+
+print('type(arr)  ',type(arr))
+print('arr.ndim  ',arr.ndim)
+print('arr.dtype  ',arr.dtype)
+print('arr.itemsize  ',arr.itemsize)
+print('arr.size  ',arr.size)
+print('arr.nbytes  ',arr.nbytes)
+print('arr.Tn',arr.T)
+print('arr.shape  ',arr.shape)
+
+
+print(=30)
+#코드 6-5
+a = np.arange(8)
+print('an', a)
+
+a.shape = (2,4)
+print('shapen', a)
+
+print('flattenn', a.flatten( ))
+
+a.resize((4,2))
+print('resizen', a)
+
+
+print(=30)
+#코드 6-6
+a = np.array([[0, 1, 2], [3, 4, 5]])
+print('an', a)
+
+b = a.transpose( )
+print('bn', b)
+
+c = a.T
+print('cn', c)
+
+print(=30)
+#코드 6-7
+mask = np.array([0, 1, 1, 0], dtype=bool)
+print(mask)
+data = np.random.randn(4,2)
+print('ndata 출력n',data)
+print('n마스킹된 데이터 출력n',data[mask])
+print('n마스킹 역전된 데이터 출력n',data[~mask])
+
+print(=30)
+#코드 6-8
+posit = data[data  0]
+print('양수 데이터 출력', 'n',posit)
+
+over1 = data[1][data[1]  0]
+print('두 번째 행의 양수 데이터 출력','n',over1)
+
+print(=30)
+#코드 6-9
+a = np.arange(6) 
+b = a 
+print(a) 
+print(b is a) 
+
+b[0] = 10 
+print(a)
+
+print(=30)
+#코드 6-10
+a = np.arange(6) 
+c = a.copy( ) 
+c[0] = 20 
+print('A ', a) 
+print('C ', c)
+
+print(=30)
+#코드 6-11
+a = np.array([3, 2, 5, 1, 4])
+print('원본n',a)
+print('정렬 후n',np.sort(a)) 
+
+print('원본n',a) 
+print('정렬한 인덱스n',np.argsort(a)) 
+
+a.sort( ) 
+print('원본n',a)
