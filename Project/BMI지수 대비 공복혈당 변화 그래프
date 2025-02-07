@@ -5,7 +5,13 @@ from scipy.signal import savgol_filter
 from google.colab import files
 import io
 
-# CSV 파일 읽기
+
+uploaded = files.upload()
+
+
+filename = list(uploaded.keys())[0]  # 업로드한 파일의 첫 번째 이름 가져오기
+
+# CSV 파일 읽기 (한글 인코딩 'cp949'로 설정)
 df = pd.read_csv(io.StringIO(uploaded[filename].decode('cp949')))
 
 # 필요한 컬럼 선택 및 결측값 제거
@@ -17,13 +23,13 @@ df = df.astype({'흡연상태': int, '음주여부': int})
 # 흡연 상태 값 필터링 (1: 비흡연, 3: 흡연)
 df = df[df['흡연상태'].isin([1, 3])]
 
-# BMI 계산 (체중 / (신장^2)), 신장은 미터 단위로 변환 (5cm 단위 → cm 변환 후 m로 변환)
+# BMI 계산 (체중 / (신장^2)), 신장은 cm → m 변환
 df['BMI'] = df['체중(5kg단위)'] / ((df['신장(5cm단위)'] / 100) ** 2)
 
 # BMI 값을 정수로 반올림하여 그룹화
 df['BMI'] = df['BMI'].round()
 
-# 흡연 & 음주 상태 결합
+# 흡연 & 음주 상태 결합 (문자열로 변환하여 조합)
 df['흡연_음주'] = df['흡연상태'].astype(str) + df['음주여부'].astype(str)
 
 # 그룹화하여 평균 계산 (BMI별 평균 공복혈당)
@@ -45,6 +51,7 @@ for group_name, group_data in grouped_df.groupby("흡연_음주"):
 
     plt.plot(group_data["BMI"], smoothed_fbs, color=colors[group_name], label=labels[group_name])
 
+# 그래프 꾸미기
 plt.title("BMI vs Fasting Blood Sugar (FBS)", fontsize=16)
 plt.xlabel("BMI", fontsize=12)
 plt.ylabel("Fasting Blood Sugar (FBS)", fontsize=12)
