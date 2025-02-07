@@ -1,0 +1,56 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+from scipy.signal import savgol_filter
+from google.colab import files
+import io
+
+# CSV 파일 읽기
+df = pd.read_csv(io.StringIO(uploaded[filename].decode('cp949')))
+
+# 필요한 컬럼 선택 및 결측값 제거
+df = df.dropna(subset=['흡연상태', '음주여부', '신장(5cm단위)', '체중(5kg단위)', '식전혈당(공복혈당)'])
+
+# 데이터 타입 변환
+df = df.astype({'흡연상태': int, '음주여부': int})
+
+# 흡연 상태 값 필터링 (1: 비흡연, 3: 흡연)
+df = df[df['흡연상태'].isin([1, 3])]
+
+# BMI 계산 (체중 / (신장^2)), 신장은 미터 단위로 변환 (5cm 단위 → cm 변환 후 m로 변환)
+df['BMI'] = df['체중(5kg단위)'] / ((df['신장(5cm단위)'] / 100) ** 2)
+
+# BMI 값을 정수로 반올림하여 그룹화
+df['BMI'] = df['BMI'].round()
+
+# 흡연 & 음주 상태 결합
+df['흡연_음주'] = df['흡연상태'].astype(str) + df['음주여부'].astype(str)
+
+# 그룹화하여 평균 계산 (BMI별 평균 공복혈당)
+grouped_df = df.groupby(["BMI", "흡연_음주"])["식전혈당(공복혈당)"].mean().reset_index()
+
+# 색상 및 라벨 지정
+colors = {"31": "red", "30": "blue", "11": "green", "10": "orange"}
+labels = {"31": "Smoke+Drink", "30": "Smoke only", "11": "Drink only", "10": "Don't do it both"}
+
+# 그래프 시각화
+plt.figure(figsize=(10, 6))
+
+for group_name, group_data in grouped_df.groupby("흡연_음주"):
+    # Savitzky-Golay 필터를 사용하여 데이터 스무딩
+    if len(group_data) > 6:  # 필터 적용을 위해 데이터 길이가 충분한지 확인
+        smoothed_fbs = savgol_filter(group_data["식전혈당(공복혈당)"], window_length=7, polyorder=2, mode='nearest')
+    else:
+        smoothed_fbs = group_data["식전혈당(공복혈당)"]
+
+    plt.plot(group_data["BMI"], smoothed_fbs, color=colors[group_name], label=labels[group_name])
+
+plt.title("BMI vs Fasting Blood Sugar (FBS)", fontsize=16)
+plt.xlabel("BMI", fontsize=12)
+plt.ylabel("Fasting Blood Sugar (FBS)", fontsize=12)
+plt.legend(title="State of smoking & drinking", loc='best', fontsize=10)
+plt.grid(True)
+plt.tight_layout()
+
+# 그래프 표시
+plt.show()
