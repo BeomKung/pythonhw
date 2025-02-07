@@ -1,0 +1,44 @@
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+filename = list(uploaded.keys())[0]
+df = pd.read_csv(filename, encoding='cp949')
+
+print(df.columns)
+
+df = df.dropna(subset=['성별코드', '혈청크레아티닌','허리둘레'])
+
+df = df.astype({'허리둘레': int})
+
+colors = {"31": "red", "30": "blue", "11": "green", "10": "orange"}
+# *
+# print(df.info())
+# df['흡연_음주'].unique()
+
+df["허리둘레_5cm"] = (df["허리둘레"] // 5) * 5  
+
+male_df = df[df["성별코드"] == 1]
+female_df = df[df["성별코드"] == 2]
+
+grouped_male = male_df.groupby("허리둘레_5cm")["혈청크레아티닌"].mean().reset_index()
+grouped_male = grouped_male[grouped_male['허리둘레_5cm'] != 995]
+
+grouped_female = female_df.groupby("허리둘레_5cm")["혈청크레아티닌"].mean().reset_index() 
+grouped_female = grouped_female[grouped_female['허리둘레_5cm'] != 995]
+
+
+plt.figure(figsize=(10, 6))
+
+plt.plot(grouped_male["허리둘레_5cm"], grouped_male["혈청크레아티닌"], marker='.', linestyle='-', color='b', label='Male')
+plt.plot(grouped_female["허리둘레_5cm"], grouped_female["혈청크레아티닌"], marker='.', linestyle='-', color='r', label='Female')
+
+plt.title("waist VS Creatinine ", fontsize=16)
+plt.xlabel("waist", fontsize=12)
+plt.ylabel("Creatinine", fontsize=12)
+plt.legend(loc='best', fontsize=10)
+plt.grid(True)
+plt.tight_layout()
+plt.show()
+
