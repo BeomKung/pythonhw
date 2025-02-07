@@ -1,0 +1,39 @@
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+filename = list(uploaded.keys())[0]
+df = pd.read_csv(filename, encoding='cp949')
+
+print(df.columns)
+# ab = df[df['혈청크레아티닌'] == df['혈청크레아티닌'].min()]
+# print(ab)
+df = df.dropna(subset=['성별코드', '혈청크레아티닌','허리둘레'])
+
+df = df.astype({'허리둘레': int})
+
+male_df = df[df["성별코드"] == 1]
+female_df = df[df["성별코드"] == 2]
+
+male_df = male_df[male_df['혈청크레아티닌'] != 60]
+male_waist = male_df["허리둘레"]
+male_creatinine = male_df["혈청크레아티닌"]
+
+# 여성 데이터에서 허리둘레 값과 혈청크레아티닌 값 가져오기
+female_df = female_df[female_df['허리둘레'] != 999]
+female_waist = female_df["허리둘레"]
+female_creatinine = female_df["혈청크레아티닌"]
+
+# 그래프 그리기
+plt.figure(figsize=(10, 6))
+
+plt.scatter(male_waist, male_creatinine, marker='o', color='b', label='Male', alpha=0.5) 
+plt.scatter(female_waist, female_creatinine, marker='o', color='r', label='Female', alpha=0.5) 
+
+plt.title("waist VS Creatinine ", fontsize=16)
+plt.xlabel("waist", fontsize=12)
+plt.ylabel("Creatinine", fontsize=12)
+plt.legend(loc='best', fontsize=10)
+plt.grid(True)
+plt.tight_layout()
+plt.show()
