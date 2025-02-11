@@ -1,8 +1,8 @@
 
 // 옷차림 추천 프로그램
-double temp;
+float temp;
 printf("현재 온도를 입력해주세요. :");
-scanf("%lf", &temp);
+scanf("%f", &temp);
 
 if (temp >= 30.0) {
     printf("너무 더워요! 반팔과 반바지를 입으세요.");
