@@ -6,8 +6,8 @@ if(num < 100 || num > 999) {
 }
 else{
     a = num / 100;
-    b = (num%100)/10;
-    c = num%10;
+    b = (num % 100)/10;
+    c = num % 10;
     result = a + b + c;
     printf("%d", result);
 }
