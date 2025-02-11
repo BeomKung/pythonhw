@@ -27,6 +27,7 @@ else {
 printf("등급: %c 등급\n", grade);
 if (bonus > 0) {
     printf("보너스: %.2f\n", bonus);
-} else {
+} 
+else {
     printf("보너스: 없음\n");
 }
