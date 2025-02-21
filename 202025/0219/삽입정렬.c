@@ -12,11 +12,15 @@ void main()
         
         int j = i;
         
-        while (j > 0 && num[j - 1] > num[j]) {
-            tmp = num[j];
-            num[j] = num[j - 1];
-            num[j - 1] = tmp;
-            j--;
+        while (j > 0) {
+            if(num[j - 1] > num[j]){
+                tmp = num[j];
+                num[j] = num[j - 1];
+                num[j - 1] = tmp;
+                j--;
+            } else {
+                break;
+            }
         }
         
         printf("현재 정렬된 부분: ");
