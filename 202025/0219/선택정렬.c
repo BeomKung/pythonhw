@@ -27,7 +27,7 @@ void main()
     // for (i = 0; i < 5; i++) {
     //     printf("%d ", arr[i]);
     // }
-    int arr[5] = {11, 35, 85, 22, 5}; 
+    int arr[5] = {64, 25, 12, 22, 11};
     int *p;
     p = arr;
     printf("초기 : ");
@@ -35,9 +35,9 @@ void main()
         printf("%d ", *(p + i));
     }
     printf("\n");
-    for (int j = 0; j < 4; j++) {
+    for (int j = 0; j < 5; j++) {
         int Min = *(p + j);
-        int tmp;
+        int tmp = j;
         
         for (int i = j; i < 5; i++) {
             if(*(p + i) < Min){
