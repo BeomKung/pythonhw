@@ -2,31 +2,6 @@
 
 void main()
 {   
-
-  // int arr[5] = {64, 25, 12, 22, 11};
-    // int i, j, temp;
-    // int *p = arr;
-    
-    // for (i = 0; i < 5-1; i++) {
-    //     printf("%d 회차 : ", i+1);
-    //     for (j = i + 1; j < 5; j++) {
-    //         if (*(p + i) > *(p + j)) {
-    //             temp = *(p + i);
-    //             *(p + i) = *(p + j);
-    //             *(p + j) = temp;
-    //         }
-            
-    //     }
-    //     for(int k = 0; k < 5; k++){
-    //             printf("%d ", arr[k]);
-    //         }
-    //     printf("\n");
-        
-    // }
-    // printf("최종결과 : ");
-    // for (i = 0; i < 5; i++) {
-    //     printf("%d ", arr[i]);
-    // }
     int arr[5] = {64, 25, 12, 22, 11};
     int *p;
     p = arr;
