@@ -3,6 +3,7 @@
 void main()
 {
 //역 직각 삼각형 별
+    int n;
     printf("숫자를 입력해주세요 : ");
     scanf("%d", &n);
     
