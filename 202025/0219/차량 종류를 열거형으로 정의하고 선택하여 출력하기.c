@@ -48,8 +48,6 @@ void main()
         }
     }
     
-    printf("현재 선택된 종류 %d \n", carType);
-    
     switch (carType) {
         case SEDAN:
             printf("선택한 차량 종류는: SEDAN\n");
